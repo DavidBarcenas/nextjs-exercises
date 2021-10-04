@@ -1,34 +1,20 @@
 import { Fragment } from 'react';
-import { useRouter } from 'next/router';
 
-import { getFilteredEvents } from '../../dummy-data';
+import { getFeaturedEvents, getFilteredEvents } from '../../helpers/api-util';
 import EventList from '../../components/events/event-list';
 import ResultsTitle from '../../components/events/results-title';
 import Button from '../../components/ui/button';
 import ErrorAlert from '../../components/ui/error-alert';
 
-function FilteredEventsPage() {
-  const router = useRouter();
+function FilteredEventsPage({ filteredEvents, invalidFilter, numYear,
+  numMonth }) {
 
-  const filterData = router.query.slug;
-
-  if (!filterData) {
+  if (!filteredEvents) {
     return <p className='center'>Loading...</p>;
   }
 
-  const filteredYear = filterData[0];
-  const filteredMonth = filterData[1];
-
-  const numYear = +filteredYear;
-  const numMonth = +filteredMonth;
-
   if (
-    isNaN(numYear) ||
-    isNaN(numMonth) ||
-    numYear > 2030 ||
-    numYear < 2021 ||
-    numMonth < 1 ||
-    numMonth > 12
+    invalidFilter
   ) {
     return (
       <Fragment>
@@ -42,12 +28,7 @@ function FilteredEventsPage() {
     );
   }
 
-  const filteredEvents = getFilteredEvents({
-    year: numYear,
-    month: numMonth,
-  });
-
-  if (!filteredEvents || filteredEvents.length === 0) {
+  if (filteredEvents.length === 0) {
     return (
       <Fragment>
         <ErrorAlert>
@@ -68,6 +49,59 @@ function FilteredEventsPage() {
       <EventList items={filteredEvents} />
     </Fragment>
   );
+}
+
+export async function getStaticProps(context) {
+  const filterData = context.params.slug;
+
+  if (!filterData) {
+    return null
+  }
+
+  const filteredYear = filterData[0];
+  const filteredMonth = filterData[1];
+
+  const numYear = +filteredYear;
+  const numMonth = +filteredMonth;
+
+  const filteredEvents = await getFilteredEvents({
+    year: numYear,
+    month: numMonth,
+  });
+
+  const invalidFilter =
+    isNaN(numYear) ||
+    isNaN(numMonth) ||
+    numYear > 2030 ||
+    numYear < 2021 ||
+    numMonth < 1 ||
+    numMonth > 12
+
+  return {
+    props: {
+      filteredEvents,
+      invalidFilter,
+      numYear,
+      numMonth
+    },
+    revalidate: 30
+  }
+}
+
+export async function getStaticPaths() {
+  const allEvents = await getFeaturedEvents()
+  const paths = allEvents.map(e => ({
+    params: {
+      slug: [new Date(e.date).getFullYear().toString(), new Date(e.date).getMonth().toString()]
+    }
+  }))
+
+  console.log(paths)
+
+  return {
+    paths,
+    fallback: true
+  }
 }
 
 export default FilteredEventsPage;
