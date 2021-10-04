@@ -1,21 +1,14 @@
 import { Fragment } from 'react';
 
-import { getFeaturedEvents, getFilteredEvents } from '../../helpers/api-util';
+import { getFilteredEvents } from '../../helpers/api-util';
 import EventList from '../../components/events/event-list';
 import ResultsTitle from '../../components/events/results-title';
 import Button from '../../components/ui/button';
 import ErrorAlert from '../../components/ui/error-alert';
 
-function FilteredEventsPage({ filteredEvents, invalidFilter, numYear,
-  numMonth }) {
+function FilteredEventsPage({ hasError, filteredEvents, numYear, numMonth }) {
 
-  if (!filteredEvents) {
-    return <p className='center'>Loading...</p>;
-  }
-
-  if (
-    invalidFilter
-  ) {
+  if (hasError) {
     return (
       <Fragment>
         <ErrorAlert>
@@ -28,7 +21,7 @@ function FilteredEventsPage({ filteredEvents, invalidFilter, numYear,
     );
   }
 
-  if (filteredEvents.length === 0) {
+  if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
         <ErrorAlert>
@@ -51,12 +44,9 @@ function FilteredEventsPage({ filteredEvents, invalidFilter, numYear,
   );
 }
 
-export async function getStaticProps(context) {
-  const filterData = context.params.slug;
-
-  if (!filterData) {
-    return null
-  }
+export async function getServerSideProps(context) {
+  const { params } = context
+  const filterData = params.slug;
 
   const filteredYear = filterData[0];
   const filteredMonth = filterData[1];
@@ -64,43 +54,32 @@ export async function getStaticProps(context) {
   const numYear = +filteredYear;
   const numMonth = +filteredMonth;
 
-  const filteredEvents = await getFilteredEvents({
-    year: numYear,
-    month: numMonth,
-  });
-
-  const invalidFilter =
+  if (
     isNaN(numYear) ||
     isNaN(numMonth) ||
     numYear > 2030 ||
     numYear < 2021 ||
     numMonth < 1 ||
     numMonth > 12
+  ) {
+    return {
+      props: {
+        hasError: true
+      }
+    }
+  }
+
+  const filteredEvents = await getFilteredEvents({
+    year: numYear,
+    month: numMonth,
+  });
 
   return {
     props: {
       filteredEvents,
-      invalidFilter,
       numYear,
       numMonth
-    },
-    revalidate: 30
-  }
-}
-
-export async function getStaticPaths() {
-  const allEvents = await getFeaturedEvents()
-  const paths = allEvents.map(e => ({
-    params: {
-      slug: [new Date(e.date).getFullYear().toString(), new Date(e.date).getMonth().toString()]
     }
-  }))
-
-  console.log(paths)
-
-  return {
-    paths,
-    fallback: true
   }
 }
 
