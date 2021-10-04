@@ -6,7 +6,6 @@ import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
 
 function EventDetailPage({ event }) {
-
   if (!event) {
     return (
       <div className="center">
@@ -55,7 +54,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: 'blocking'
+    fallback: true
   }
 }
 
