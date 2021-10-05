@@ -29,6 +29,12 @@ export default function Home() {
       .then(data => console.log(data))
   }
 
+  function loadFeedback() {
+    fetch('/api/feedback')
+      .then(response => response.json())
+      .then(data => console.log(data))
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -42,7 +48,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <form>
+        <form onSubmit={submitFormHandler}>
           <div>
             <label htmlFor="email">Your Email Address</label>
             <input type="email" id="email" ref={emailInputRef} />
@@ -51,8 +57,12 @@ export default function Home() {
             <label htmlFor="feedback">Your Feedback</label>
             <textarea id="feedback" cols="30" rows="10" ref={feedbackInputRef}></textarea>
           </div>
-          <button onClick={submitFormHandler}>Send Feedback</button>
+          <button type='submit'>Send Feedback</button>
         </form>
+
+        <hr />
+
+        <button onClick={loadFeedback}>Load Feedback</button>
       </main>
 
       <footer className={styles.footer}>
