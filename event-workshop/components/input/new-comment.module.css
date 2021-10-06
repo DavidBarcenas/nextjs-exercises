@@ -37,6 +37,6 @@
   background-color: #dcfff9;
 }
 
-.form button {
-  background-color: white;
+.button {
+  background-color: white !important;
 }
