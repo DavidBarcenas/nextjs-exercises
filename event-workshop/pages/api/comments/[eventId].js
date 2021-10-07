@@ -1,11 +1,18 @@
-import { MongoClient } from 'mongodb'
+import { connectDB } from '../../../helpers/db-util'
 
 async function handler(req, res) {
   const eventId = req.query.eventId
   const { email, name, comment } = req.body
 
-  const client = await MongoClient.connect(process.env.MONGO_CONNECT)
-  const db = client.db('nextjs')
+  let client;
+
+  try {
+    client = await connectDB()
+  } catch (error) {
+    res.status(500).json({ message: 'Connecting to the database failed!' })
+    client.close()
+    return
+  }
 
   if (req.method === 'POST') {
     if (
@@ -28,18 +35,23 @@ async function handler(req, res) {
       comment
     }
 
-    const result = await db.collection('comments').insertOne(newComment)
+    try {
+      const result = await insertDocument(client, 'comments', newComment)
+      client.close()
 
-    newComment.id = result.insertedId
+      newComment._id = result.insertedId
 
-    res.status(201).json({
-      message: 'success',
-      comment: newComment
-    })
+      res.status(201).json({
+        message: 'success',
+        comment: newComment
+      })
+    } catch (error) {
+      res.status(500).json({ message: 'Inserting data failed!' })
+    }
   }
 
   if (req.method === 'GET') {
-    const result = await db.collection('comments').find().sort({ _id: -1 }).toArray()
+    const result = await client.db('nextjs').collection('comments').find({ eventId }).sort({ _id: -1 }).toArray()
     res.status(200).json({ message: 'success', comments: result })
   }
 

@@ -1,29 +1,36 @@
-import { MongoClient } from 'mongodb'
+import { connectDB, insertDocument } from "../../helpers/db-util";
+
 
 async function handler(req, res) {
   if (req.method === 'POST') {
     const email = req.body.email
 
-    if (
-      !email ||
-      email.trim() === '' ||
-      !email.includes('@')
-    ) {
+    if (!email || email.trim() === '' || !email.includes('@')) {
       res.status(422).json({ message: 'Invalid email address' })
       return
     }
 
-    const client = await MongoClient.connect(process.env.MONGO_CONNECT)
-    const db = client.db('nextjs')
+    let client;
 
-    await db.collection('newsletter').insertOne({ email })
-    client.close()
+    try {
+      client = await connectDB()
+    } catch (error) {
+      res.status(500).json({ message: 'Connecting to the database failed!' })
+      return
+    }
+
+    try {
+      await insertDocument(client, 'newsletter', { email })
+      client.close()
+    } catch (error) {
+      res.status(500).json({ message: 'Inserting data failed!' })
+      return
+    }
 
     res.status(201).json({
-      message: 'Success!',
+      message: 'success',
       email
     })
   }
 }
-
 export default handler;
