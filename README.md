@@ -7,3 +7,5 @@ Learning NextJS from scratch and building complete, production-ready ReactJS app
 - React refresh (check the bases of react.js)
 - Routing (route system management)
 - Pre-rendering and Data Fetching (use render strategies depending on the data)
+- Backend API Routes (work with nextjs backend)
+- Event Workshop (mongodb connection, nextjs backend, render strategies)
