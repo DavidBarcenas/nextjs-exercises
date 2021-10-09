@@ -1,6 +1,10 @@
+import classes from './featured-posts.module.css'
+
 function FeaturedPosts() {
   return (
-    <h1>FeaturedPosts</h1>
+    <section className={classes.latest}>
+      <h2>Featured Posts</h2>
+    </section>
   );
 }
 
