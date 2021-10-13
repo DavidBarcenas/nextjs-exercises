@@ -15,19 +15,26 @@ async function handler(req, res) {
       return
     }
 
+    const client = await connectToDB()
+    const db = await client.db('nextjs').collection('users')
+
+    const existingUser = await db.findOne({ email })
+
+    if (existingUser) {
+      res.status(422).json({ message: 'User exists already!' })
+      client.close()
+      return
+    }
+
     const hashedPassword = await hashPassword(password)
 
-    const client = await connectToDB()
-
-    await client
-      .db('nextjs')
-      .collection('users')
-      .insertOne({
-        email,
-        password: hashedPassword
-      })
+    await db.insertOne({
+      email,
+      password: hashedPassword
+    })
 
     res.status(201).json({ message: 'Created user!' })
+    client.close()
   }
 }
 
