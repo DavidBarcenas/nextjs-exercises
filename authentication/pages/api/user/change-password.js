@@ -29,7 +29,7 @@ async function handler(req, res) {
   }
 
   const currentPassword = user.password
-  const passwordsAreEqual = verifyPassword(oldPassword, currentPassword)
+  const passwordsAreEqual = await verifyPassword(oldPassword, currentPassword)
 
   if (!passwordsAreEqual) {
     res.status(403).json({ message: 'Invalid password.' })
@@ -46,7 +46,7 @@ async function handler(req, res) {
   })
 
   client.close()
-  res.status(403).json({ message: 'Password updated!' })
+  res.status(200).json({ message: 'Password updated!' })
 }
 
 export default handler;
