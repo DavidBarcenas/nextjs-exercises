@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Nest.js projects</h1>
+  <h1>Next.js projects</h1>
   <img src="./.readme-static/next-js.svg" width="70" alt="Next.js logo" />
   <p>Learning Next.js from scratch with full, production-ready apps!</p>
 </div>
