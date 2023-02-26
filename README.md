@@ -1,22 +1,22 @@
-# Learning Nextjs good practices
+<div align="center">
+  <h1>Nest.js projects</h1>
+  <img src="./.readme-static/next-js.svg" width="70" alt="Next.js logo" />
+  <p>Learning Next.js from scratch with full, production-ready apps!</p>
+</div>
 
-Learning NextJS from scratch and building complete, production-ready ReactJS applications!
+## Content
+### GPT chat clone with tailwindcss
+![App screenshot](./.readme-static/chat-gpt-clone.png)
 
-# Content
-
-- React refresh (check the bases of react.js)
-- Routing (route system management)
-- Pre-rendering and Data Fetching (use render strategies depending on the data)
-- Backend API Routes (work with nextjs backend)
-- Event Workshop (mongodb connection, nextjs backend, render strategies)
-- Blog Workshop (Nextjs routes API for database connections, markdown to html)
-- Authentication (using next-auth, protect routes from client and from server)
-
-# Screenshots
-
+### Event Workshop (mongodb connection, nextjs backend, render strategies, route system management)
 ![App screenshot](./.readme-static/events.png)
 ![App screenshot](./.readme-static/events2.png)
+
+### Blog Workshop (Nextjs routes API for database connections, markdown to html)
+Pre-rendering and Data Fetching. Use render strategies depending on the data.
 ![App screenshot](./.readme-static/blog.png)
 ![App screenshot](./.readme-static/blog2.png)
 ![App screenshot](./.readme-static/blog3.png)
+
+### Authentication (using next-auth, protect routes from client and from server)
 ![App screenshot](./.readme-static/auth.png)
