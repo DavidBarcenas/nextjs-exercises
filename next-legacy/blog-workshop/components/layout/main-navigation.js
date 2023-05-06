@@ -14,7 +14,7 @@ function MainNavigation() {
       <nav>
         <ul>
           <li><Link href="/posts">Posts</Link></li>
-          <li><Link href="/contact">Contact</Link></li>
+          <li><Link href="/next-legacy/blog-workshop/pages/contact">Contact</Link></li>
         </ul>
       </nav>
     </header>

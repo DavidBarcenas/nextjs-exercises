@@ -23,7 +23,7 @@ export default function MainNavigation() {
             session ? (
               <>
                 <li>
-                  <Link href='/profile'>Profile</Link>
+                  <Link href='/next-legacy/authentication/pages/profile'>Profile</Link>
                 </li>
                 <li>
                   <button onClick={logoutHandler}>Logout</button>
@@ -31,7 +31,7 @@ export default function MainNavigation() {
               </>
             ) : (
               <li>
-                <Link href='/auth'>Login</Link>
+                <Link href='/next-legacy/authentication/pages/auth'>Login</Link>
               </li>
             )
           }
