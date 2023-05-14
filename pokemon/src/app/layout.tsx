@@ -1,6 +1,7 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import {Navbar} from "@/components/navbar";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <h1>Pokemon</h1>
+        <header className='flex justify-between items-center px-8 py-4'>
+          <Image src="/pokemon-logo.png" alt="Pokémon" width={200} height={100}/>
           <Navbar />
         </header>
         <main>{children}</main>
