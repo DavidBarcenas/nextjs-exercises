@@ -10,7 +10,7 @@ export function Navbar() {
             alt='Captured'
             width={50}
             height={50}
-            className='inline-block animate-bounce'/>
+            className='inline-block'/>
           <span>Captured</span>
         </li>
       </ul>
