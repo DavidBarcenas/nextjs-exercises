@@ -1,13 +1,13 @@
 export interface APIResponse {
-  count:     number;
-  next?:     string;
-  previous?: string;
-  results:   ShortPokemon[];
+  count: number
+  next?: string
+  previous?: string
+  results: ShortPokemon[]
 }
 
 export interface ShortPokemon {
-  name:  string;
-  url:   string;
-  id:    number;
-  image: string;
+  name: string
+  url: string
+  id: number
+  image: string
 }
