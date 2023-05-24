@@ -1,5 +1,6 @@
-import { getPokemons } from '@/services/get-pokemons'
+
 import Link from 'next/link'
+import { getPokemons } from '@/services/pokemon-service'
 
 export default async function Home() {
   const pokemons = await getPokemons()
