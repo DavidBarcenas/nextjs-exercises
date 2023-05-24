@@ -1,11 +1,12 @@
 import { APIResponse, ShortPokemon } from '@/interfaces/api-response'
 import { Pokemon } from '@/interfaces/pokemon'
+import { API_ENDPOINT, FAIL_DATA_MESSAGE, POKEMON_IMAGE_URL } from '@/utils/constants'
 
 export async function getPokemons(): Promise<ShortPokemon[]> {
-  const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+  const res = await fetch(`${API_ENDPOINT}/pokemon?limit=151`)
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error(FAIL_DATA_MESSAGE)
   }
 
   const data: APIResponse = await res.json()
@@ -13,7 +14,7 @@ export async function getPokemons(): Promise<ShortPokemon[]> {
     return {
       ...pokemon,
       id: index + 1,
-      image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${
+      image: `${POKEMON_IMAGE_URL}/${
         index + 1
       }.svg`,
     }
@@ -21,10 +22,10 @@ export async function getPokemons(): Promise<ShortPokemon[]> {
 }
 
 export async function getPokemonById(id: string): Promise<Pokemon> {
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+  const res = await fetch(`${API_ENDPOINT}/pokemon/${id}`)
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error(FAIL_DATA_MESSAGE)
   }
 
   return await res.json()
