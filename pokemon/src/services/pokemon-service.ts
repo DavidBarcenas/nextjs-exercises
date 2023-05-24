@@ -1,4 +1,5 @@
 import { APIResponse, ShortPokemon } from '@/interfaces/api-response'
+import { Pokemon } from '@/interfaces/pokemon'
 
 export async function getPokemons(): Promise<ShortPokemon[]> {
   const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
@@ -17,4 +18,14 @@ export async function getPokemons(): Promise<ShortPokemon[]> {
       }.svg`,
     }
   })
+}
+
+export async function getPokemonById(id: string): Promise<Pokemon> {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+
+  return await res.json()
 }
