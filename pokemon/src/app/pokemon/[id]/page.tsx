@@ -12,7 +12,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Pokemon({ params }: Props) {
-  const {id} = params
+  const { id } = params
   const pokemonData = await getPokemonById(id)
 
   return (

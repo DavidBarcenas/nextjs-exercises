@@ -1,4 +1,3 @@
-
 import Link from 'next/link'
 import { getPokemons } from '@/services/pokemon-service'
 
