@@ -23,7 +23,7 @@ export default async function Home() {
               {pokemon.name}
             </h2>
           </Link>
-        </li>
+        </li> 
       ))}
     </ul>
   )
