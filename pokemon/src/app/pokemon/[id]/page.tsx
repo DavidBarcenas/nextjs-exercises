@@ -1,5 +1,4 @@
 import { getPokemonById } from '@/services/pokemon-service'
-import { POKEMON_IMAGE_URL } from '@/utils/constants'
 
 interface Props {
   params: {
